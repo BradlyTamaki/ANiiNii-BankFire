@@ -10,6 +10,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import * as firebase from 'firebase/app';
 import { AngularFireModule } from 'angularfire2';
 import { Facebook } from '@ionic-native/facebook';
+import { AngularFireAuth } from 'angularfire2/auth'
 import { AuthProvider } from '../providers/auth/auth';
 
 const FIREBASE_CONFIG = {
@@ -41,6 +42,7 @@ firebase.initializeApp(FIREBASE_CONFIG);
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
+    AngularFireAuth,
     Facebook
   ]
 })

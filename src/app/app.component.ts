@@ -3,7 +3,8 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-//import { AuthProvider } from '../providers/auth/auth';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthProvider } from '../providers/auth/auth';
 
 @Component({
   templateUrl: 'app.html'
@@ -11,11 +12,17 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = 'HomePage';
+  rootPage: any;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(
+    public platform: Platform,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
+    public angularFireAuth: AngularFireAuth,
+    public authProvider: AuthProvider
+  ) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -25,6 +32,17 @@ export class MyApp {
       { title: 'Login', component: 'LoginPage' }
     ];
 
+    //observable for current login state
+    const authObserver = this.angularFireAuth.authState.subscribe((user) => {
+      if (user) {
+        this.rootPage = 'HomePage';
+        this.authProvider.currentUser = user;
+        authObserver.unsubscribe();
+      } else {
+        this.rootPage = 'LoginPage';
+        authObserver.unsubscribe();
+      }
+    });
   }
 
   initializeApp() {
@@ -34,8 +52,6 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-
-
   }
 
   openPage(page) {

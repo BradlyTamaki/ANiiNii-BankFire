@@ -8,14 +8,14 @@ import { ToastController } from 'ionic-angular';
 
 @Injectable()
 export class AuthProvider {
-  private currentUserData: any;
+  private currentUserData: any = null;
 
   constructor(public angularFireAuth: AngularFireAuth, public toastCtrl: ToastController, public facebook: Facebook) { }
 
   set currentUser(data) {
-    this.currentUser = data;
+    this.currentUserData = data;
   }
-  
+
   get currentUser() {
     return this.currentUserData;
   }
@@ -33,22 +33,22 @@ export class AuthProvider {
         });
         toast.present();
         this.currentUserData = res;
-        //this.userProfile = success;
       }).catch((error) => {
         console.log("Firebase failure: " + JSON.stringify(error));
-
-        let toast = this.toastCtrl.create({
-          message: 'Successfully logged out',
-          duration: 3000
-        });
-        toast.present();
       });
     }).catch((error) => { console.log(error) });
   }
 
   logout() {
     return this.angularFireAuth.auth.signOut().then((res) => {
-      console.log('Successfully logged out.');
+      console.log('Successfully logged out.', res);
+      this.currentUser = null;
+      
+      let toast = this.toastCtrl.create({
+        message: 'Successfully logged out',
+        duration: 3000
+      });
+      toast.present();
     });
   }
 }
