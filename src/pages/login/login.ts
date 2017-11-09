@@ -8,8 +8,7 @@ import { AuthProvider } from '../../providers/auth/auth';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider) {
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider) { }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
@@ -23,7 +22,4 @@ export class LoginPage {
     this.authProvider.logout();
   }
 
-  seeData() {
-    console.log(this.authProvider.currentUser);
-  }
 }
