@@ -6,11 +6,11 @@ import { MyApp } from './app.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { AuthProvider } from '../providers/auth/auth';
 
+import * as firebase from 'firebase/app';
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule } from 'angularfire2/auth';
 import { Facebook } from '@ionic-native/facebook';
+import { AuthProvider } from '../providers/auth/auth';
 
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyDsh_jb0r-KwZbGdAwQ7MYvmDKVKBMJKao",
@@ -21,6 +21,8 @@ const FIREBASE_CONFIG = {
   messagingSenderId: "758193744087"
 }
 
+firebase.initializeApp(FIREBASE_CONFIG);
+  
 @NgModule({
   declarations: [
     MyApp
@@ -28,8 +30,7 @@ const FIREBASE_CONFIG = {
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(FIREBASE_CONFIG),
-    AngularFireAuthModule
+    AngularFireModule.initializeApp(FIREBASE_CONFIG)
   ],
   bootstrap: [IonicApp],
   entryComponents: [

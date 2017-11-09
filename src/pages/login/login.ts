@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Facebook } from '@ionic-native/facebook';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -18,7 +18,6 @@ export class LoginPage {
   }
   
   login() {
-    console.log('hi');
     this.facebook.login(['email']).then((response) => {
       const facebookCredential = firebase.auth.FacebookAuthProvider.credential(response.authResponse.accessToken);
 
@@ -29,5 +28,11 @@ export class LoginPage {
         console.log("Firebase failure: " + JSON.stringify(error));
       });
     }).catch((error) => { console.log(error) });
+  }
+
+  logout() {
+    firebase.auth().signOut().then((res) => {
+      console.log('Successfully logged out.');
+    });
   }
 }
