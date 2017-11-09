@@ -8,7 +8,7 @@ import { ToastController } from 'ionic-angular';
 
 @Injectable()
 export class AuthProvider {
-  private currentUserData: any = null;
+  public currentUserData: any = null;
 
   constructor(public angularFireAuth: AngularFireAuth, public toastCtrl: ToastController, public facebook: Facebook) { }
 
@@ -43,7 +43,7 @@ export class AuthProvider {
     return this.angularFireAuth.auth.signOut().then((res) => {
       console.log('Successfully logged out.', res);
       this.currentUser = null;
-      
+
       let toast = this.toastCtrl.create({
         message: 'Successfully logged out',
         duration: 3000
